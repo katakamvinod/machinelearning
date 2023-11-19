@@ -1,0 +1,520 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "02e4c7e6-4ca6-4619-9591-f67a53a9b867",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "ename": "ModuleNotFoundError",
+     "evalue": "No module named 'pandas'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[8], line 1\u001b[0m\n\u001b[0;32m----> 1\u001b[0m \u001b[38;5;28;01mimport\u001b[39;00m \u001b[38;5;21;01mpandas\u001b[39;00m \u001b[38;5;28;01mas\u001b[39;00m \u001b[38;5;21;01mpd\u001b[39;00m\n",
+      "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'pandas'"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "fcafda6b-4891-4785-95cc-bdb95d1bcb90",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'pd' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[7], line 1\u001b[0m\n\u001b[0;32m----> 1\u001b[0m athletes \u001b[38;5;241m=\u001b[39m \u001b[43mpd\u001b[49m\u001b[38;5;241m.\u001b[39mread_csv(\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mathlete_events.csv\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'pd' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "athletes = pd.read_csv(\"athlete_events.csv\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "3d2b6e79-f2fe-4ff6-ad1f-c02c15ac133e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'athletes' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[6], line 1\u001b[0m\n\u001b[0;32m----> 1\u001b[0m \u001b[43mathletes\u001b[49m\u001b[38;5;241m.\u001b[39mhead()\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'athletes' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "athletes.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "3516e453-c9d0-4b5e-b287-e0c96a58d441",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "athletes = athletes[athletes[\"Season\"] == \"Summer\"]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "ed038071-e184-4ce6-abf5-53f0a00dc61d",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "def team_summary(data):\n",
+    "    return pd.Series({\n",
+    "        'team': data.iloc[0,:][\"NOC\"],\n",
+    "        'country': data.iloc[-1,:][\"Team\"],\n",
+    "        'year': data.iloc[0,:][\"Year\"],\n",
+    "        'events': len(data['Event'].unique()),\n",
+    "        'athletes': data.shape[0],\n",
+    "        'age': data[\"Age\"].mean(),\n",
+    "        'height': data['Height'].mean(),\n",
+    "        'weight': data['Weight'].mean(),\n",
+    "        'medals': sum(~pd.isnull(data[\"Medal\"]))\n",
+    "    })\n",
+    "\n",
+    "team = athletes.groupby([\"NOC\", \"Year\"]).apply(team_summary)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "49baf82f-7fb7-4cd8-a6e6-ecf21dcbc93c",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "team = team.reset_index(drop=True)\n",
+    "team = team.dropna()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "eae4bcb0-fe56-429f-a099-4feaf3ff8e9b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6b579182-3a90-4899-a9b1-e4a1cb5dc075",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "b0d67bd3-af4d-421f-b377-de35487341d6",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>team</th>\n",
+       "      <th>country</th>\n",
+       "      <th>year</th>\n",
+       "      <th>events</th>\n",
+       "      <th>athletes</th>\n",
+       "      <th>age</th>\n",
+       "      <th>height</th>\n",
+       "      <th>weight</th>\n",
+       "      <th>medals</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1960</td>\n",
+       "      <td>13</td>\n",
+       "      <td>16</td>\n",
+       "      <td>23.312500</td>\n",
+       "      <td>170.687500</td>\n",
+       "      <td>69.437500</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1964</td>\n",
+       "      <td>8</td>\n",
+       "      <td>8</td>\n",
+       "      <td>22.000000</td>\n",
+       "      <td>161.000000</td>\n",
+       "      <td>64.250000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1968</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>23.200000</td>\n",
+       "      <td>170.200000</td>\n",
+       "      <td>70.000000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1972</td>\n",
+       "      <td>8</td>\n",
+       "      <td>8</td>\n",
+       "      <td>29.000000</td>\n",
+       "      <td>168.333333</td>\n",
+       "      <td>63.750000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1980</td>\n",
+       "      <td>11</td>\n",
+       "      <td>11</td>\n",
+       "      <td>23.636364</td>\n",
+       "      <td>168.363636</td>\n",
+       "      <td>63.181818</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2805</th>\n",
+       "      <td>ZIM</td>\n",
+       "      <td>Zimbabwe</td>\n",
+       "      <td>2000</td>\n",
+       "      <td>19</td>\n",
+       "      <td>26</td>\n",
+       "      <td>24.961538</td>\n",
+       "      <td>178.960000</td>\n",
+       "      <td>71.080000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2806</th>\n",
+       "      <td>ZIM</td>\n",
+       "      <td>Zimbabwe</td>\n",
+       "      <td>2004</td>\n",
+       "      <td>11</td>\n",
+       "      <td>14</td>\n",
+       "      <td>25.071429</td>\n",
+       "      <td>177.785714</td>\n",
+       "      <td>70.500000</td>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2807</th>\n",
+       "      <td>ZIM</td>\n",
+       "      <td>Zimbabwe</td>\n",
+       "      <td>2008</td>\n",
+       "      <td>15</td>\n",
+       "      <td>16</td>\n",
+       "      <td>26.062500</td>\n",
+       "      <td>171.928571</td>\n",
+       "      <td>63.714286</td>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2808</th>\n",
+       "      <td>ZIM</td>\n",
+       "      <td>Zimbabwe</td>\n",
+       "      <td>2012</td>\n",
+       "      <td>8</td>\n",
+       "      <td>9</td>\n",
+       "      <td>27.333333</td>\n",
+       "      <td>174.444444</td>\n",
+       "      <td>65.222222</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2809</th>\n",
+       "      <td>ZIM</td>\n",
+       "      <td>Zimbabwe</td>\n",
+       "      <td>2016</td>\n",
+       "      <td>13</td>\n",
+       "      <td>31</td>\n",
+       "      <td>27.483871</td>\n",
+       "      <td>167.838710</td>\n",
+       "      <td>62.193548</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>2613 rows × 9 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     team      country  year  events  athletes        age      height  \\\n",
+       "3     AFG  Afghanistan  1960      13        16  23.312500  170.687500   \n",
+       "4     AFG  Afghanistan  1964       8         8  22.000000  161.000000   \n",
+       "5     AFG  Afghanistan  1968       5         5  23.200000  170.200000   \n",
+       "6     AFG  Afghanistan  1972       8         8  29.000000  168.333333   \n",
+       "7     AFG  Afghanistan  1980      11        11  23.636364  168.363636   \n",
+       "...   ...          ...   ...     ...       ...        ...         ...   \n",
+       "2805  ZIM     Zimbabwe  2000      19        26  24.961538  178.960000   \n",
+       "2806  ZIM     Zimbabwe  2004      11        14  25.071429  177.785714   \n",
+       "2807  ZIM     Zimbabwe  2008      15        16  26.062500  171.928571   \n",
+       "2808  ZIM     Zimbabwe  2012       8         9  27.333333  174.444444   \n",
+       "2809  ZIM     Zimbabwe  2016      13        31  27.483871  167.838710   \n",
+       "\n",
+       "         weight  medals  \n",
+       "3     69.437500       0  \n",
+       "4     64.250000       0  \n",
+       "5     70.000000       0  \n",
+       "6     63.750000       0  \n",
+       "7     63.181818       0  \n",
+       "...         ...     ...  \n",
+       "2805  71.080000       0  \n",
+       "2806  70.500000       3  \n",
+       "2807  63.714286       4  \n",
+       "2808  65.222222       0  \n",
+       "2809  62.193548       0  \n",
+       "\n",
+       "[2613 rows x 9 columns]"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "team"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "6ee10d8c-2645-4d93-9426-964faba89694",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>team</th>\n",
+       "      <th>country</th>\n",
+       "      <th>year</th>\n",
+       "      <th>events</th>\n",
+       "      <th>athletes</th>\n",
+       "      <th>age</th>\n",
+       "      <th>height</th>\n",
+       "      <th>weight</th>\n",
+       "      <th>medals</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1960</td>\n",
+       "      <td>13</td>\n",
+       "      <td>16</td>\n",
+       "      <td>23.312500</td>\n",
+       "      <td>170.687500</td>\n",
+       "      <td>69.437500</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1964</td>\n",
+       "      <td>8</td>\n",
+       "      <td>8</td>\n",
+       "      <td>22.000000</td>\n",
+       "      <td>161.000000</td>\n",
+       "      <td>64.250000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1968</td>\n",
+       "      <td>5</td>\n",
+       "      <td>5</td>\n",
+       "      <td>23.200000</td>\n",
+       "      <td>170.200000</td>\n",
+       "      <td>70.000000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1972</td>\n",
+       "      <td>8</td>\n",
+       "      <td>8</td>\n",
+       "      <td>29.000000</td>\n",
+       "      <td>168.333333</td>\n",
+       "      <td>63.750000</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>AFG</td>\n",
+       "      <td>Afghanistan</td>\n",
+       "      <td>1980</td>\n",
+       "      <td>11</td>\n",
+       "      <td>11</td>\n",
+       "      <td>23.636364</td>\n",
+       "      <td>168.363636</td>\n",
+       "      <td>63.181818</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  team      country  year  events  athletes        age      height     weight  \\\n",
+       "0  AFG  Afghanistan  1960      13        16  23.312500  170.687500  69.437500   \n",
+       "1  AFG  Afghanistan  1964       8         8  22.000000  161.000000  64.250000   \n",
+       "2  AFG  Afghanistan  1968       5         5  23.200000  170.200000  70.000000   \n",
+       "3  AFG  Afghanistan  1972       8         8  29.000000  168.333333  63.750000   \n",
+       "4  AFG  Afghanistan  1980      11        11  23.636364  168.363636  63.181818   \n",
+       "\n",
+       "   medals  \n",
+       "0       0  \n",
+       "1       0  \n",
+       "2       0  \n",
+       "3       0  \n",
+       "4       0  "
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "team = team.reset_index(drop=True)\n",
+    "team = team.dropna()\n",
+    "team.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "21618867-1d2b-4ba9-ac3f-8418b2af47b5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
